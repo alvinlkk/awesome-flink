@@ -26,7 +26,7 @@ public class OrderStreamDemo {
         // 设置并行度
         env.setParallelism(1);
 
-        // 2.读取数据:从文件读
+        // 2.读取数据
         DataStreamSource<String> socketDS = env.socketTextStream("10.100.1.13", 7776);
         
         // 3.转换成对象
@@ -34,7 +34,7 @@ public class OrderStreamDemo {
                 .map(new MapFunction<String, Order>() {
                     @Override
                     public Order map(String value) {
-                        // 按照 空格 切分
+                        // socket中数据根据逗号分割，映射出Order对象
                         String[] orders = value.split(",");
                         Order order = new Order();
                         if(orders.length >= 4) {
